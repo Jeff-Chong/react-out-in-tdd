@@ -5,14 +5,14 @@ describe('餐厅馆列表', () => {
     const sushiPlace = 'Sushi Place';
     const pizzaPlace = 'Pizza Place';
 
-    cy.server({ force404: true });
+    cy.server({force404: true});
 
     cy.route({
       method: 'GET',
-      url: 'https://api.outsidein.dev/restaurants',
+      url: '/fakeApi/restaurants',
       response: [
-        { id: 1, name: sushiPlace },
-        { id: 2, name: pizzaPlace },
+        {id: 1, name: sushiPlace},
+        {id: 2, name: pizzaPlace},
       ],
     });
 

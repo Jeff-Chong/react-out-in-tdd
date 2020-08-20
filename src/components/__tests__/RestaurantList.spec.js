@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
-import { RestaurantList } from '../RestaurantList';
+import {render, cleanup} from '@testing-library/react';
+import {RestaurantList} from '../RestaurantList';
 
 describe('<RestaurantList />', () => {
   const restaurants = [
-    { id: 1, name: 'Sushi Place' },
-    { id: 2, name: 'Pizza Place' },
+    {id: 1, name: 'Sushi Place'},
+    {id: 2, name: 'Pizza Place'},
   ];
   let context;
   let loadRestaurants;
@@ -27,7 +27,7 @@ describe('<RestaurantList />', () => {
   });
 
   it('显示餐馆列表', () => {
-    const { queryByText } = context;
+    const {queryByText} = context;
 
     // queryByText 为查询到值时返回 null
     expect(queryByText('Sushi Place')).not.toBeNull();
