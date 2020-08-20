@@ -15,5 +15,6 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'warn',
+    "linebreak-style": 'off'
   },
 };
