@@ -15,10 +15,11 @@ import {Server} from 'miragejs';
 
 if (!window.Cypress) {
   new Server({
-    environment: 'test',
+    environment: 'development',
 
     routes() {
       this.namespace = '/fakeApi';
+      this.timing = 2000;
       this.get('/restaurants', [
         {id: 1, name: 'xx Place'},
         {id: 2, name: 'yy Place'},
