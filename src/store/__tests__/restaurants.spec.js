@@ -1,16 +1,16 @@
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware} from 'redux';
 import restaurantsReducer from '../restaurants/reducers';
-import {loadRestaurants} from '../restaurants/actions';
+import {loadRestaurants, createRestaurant} from '../restaurants/actions';
 
-describe('restaurants actions', () => {
+describe('loadRestaurants actions', () => {
   describe('初始化', () => {
     let store;
     beforeEach(() => {
-      const inititalState = {};
+      const initialState = {};
       store = createStore(
         restaurantsReducer,
-        inititalState,
+        initialState,
         applyMiddleware(thunk),
       );
     });
@@ -102,6 +102,61 @@ describe('restaurants actions', () => {
     });
     it('清理 loading 标记', () => {
       expect(store.getState().loading).toEqual(false);
+    });
+  });
+});
+
+describe('createRestaurant action', () => {
+  const newRestaurantName = 'Sushi Place';
+  const existingRestaurant = {id: 1, name: 'Pizza Place'};
+  const responseRestaurant = {id: 2, name: newRestaurantName};
+
+  let api;
+  let store;
+  let promise;
+  beforeEach(() => {
+    api = {
+      createRestaurant: jest.fn().mockName('createRestaurant'),
+    };
+    const initialState = {
+      records: [existingRestaurant],
+    };
+    store = createStore(
+      restaurantsReducer,
+      initialState,
+      applyMiddleware(thunk.withExtraArgument(api)),
+    );
+  });
+
+  it('向服务器发送请求保存餐馆名', () => {
+    api.createRestaurant.mockResolvedValue(responseRestaurant);
+    store.dispatch(createRestaurant(newRestaurantName));
+    expect(api.createRestaurant).toHaveBeenCalledWith(newRestaurantName);
+  });
+
+  describe('当请求成功时', () => {
+    beforeEach(() => {
+      api.createRestaurant.mockResolvedValue(responseRestaurant);
+      promise = store.dispatch(createRestaurant(newRestaurantName));
+    });
+
+    it('保存成功的请求数据', () => {
+      expect(store.getState().records).toEqual([
+        existingRestaurant,
+        responseRestaurant,
+      ]);
+    });
+
+    it('resolves', () => {
+      return expect(promise).resolves.toBeUndefined();
+    });
+  });
+
+  describe('当请求失败时', () => {
+    it('rejects', () => {
+      api.createRestaurant.mockRejectedValue();
+      promise = store.dispatch(createRestaurant(newRestaurantName));
+      return expect(promise).rejects.toBeUndefined();
     });
   });
 });

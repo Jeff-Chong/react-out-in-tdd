@@ -44,6 +44,7 @@
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "flush-promises": "^1.0.2",
     "miragejs": "^0.1.40",
     "prettier": "^2.0.5",
     "redux-devtools-extension": "^2.13.8"
